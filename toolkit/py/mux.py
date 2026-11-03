@@ -22,7 +22,7 @@ def main():
     short = [n for i, (t, n) in enumerate(ch) if (ch[i + 1][0] if i + 1 < len(ch) else dur) - t < 10]
     if short:
         print('WARNING: chapters under 10 s (YouTube ignores the list):', short)
-    meta = [';FFMETADATA1', f"title={c['mp4_title']}", 'artist=Margin Notes']
+    meta = [';FFMETADATA1', f"title={c['mp4_title']}", f"artist={c['series']}"]
     for i, (t, name) in enumerate(ch):
         end = ch[i + 1][0] if i + 1 < len(ch) else dur
         meta += ['[CHAPTER]', 'TIMEBASE=1/1000', f'START={int(t * 1000)}', f'END={int(end * 1000)}', f'title={name}']

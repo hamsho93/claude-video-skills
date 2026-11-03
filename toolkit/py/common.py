@@ -27,6 +27,7 @@ def epdir(argv=None):
 
 def config(d):
     c = json.load(open(os.path.join(d, 'episode.json'), encoding='utf-8'))
+    c.setdefault('series', 'Margin Notes')   # series name: scene series line, MP4 artist
     c.setdefault('scene', 'scene.js')
     c.setdefault('script', 'script.py')
     c.setdefault('kits_extra', [])

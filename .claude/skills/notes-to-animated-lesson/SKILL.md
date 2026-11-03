@@ -9,7 +9,7 @@ Use this when someone shares study notes (a Goodnotes link, PDF or photos), rese
 
 The goal: a viewer leaves able to explain the idea to someone else, not able to recite its numbers.
 
-This file is the map. Read a reference file only when you reach its step; don't load them all up front. They sit in `references/` beside this file; in a session without this repo, read them from the toolkit artifact's `skill/references/` folder.
+This file is the map. Read a reference file only when you reach its step; don't load them all up front. They sit in `references/` beside this file. If this skill loaded without its repo (no `references/` folder), attach https://github.com/hamsho93/claude-video-skills to the session first: it holds the references and the toolkit.
 
 | step | read |
 |---|---|
@@ -22,8 +22,8 @@ This file is the map. Read a reference file only when you reach its step; don't 
 
 ## Start of every session
 
-- **Toolkit:** this repo's `toolkit/` folder (copy it to a working folder and run `setup.sh`). Sessions without the repo load it from the Margin Notes Toolkit artifact (https://claude.ai/artifact/7GZp8w4w2bjXu2YxQH2q9c); when the toolkit or this skill changes, republish that artifact to the same URL. Never rebuild the engine from scratch.
-- **Plan doc first** (the series plan in Claude Docs): its status block says what's built, open and next; its tabs hold the approved scripts; its season **review rules** bind every episode of the season. No plan doc yet: create one (see `script-and-review.md`).
+- **Toolkit:** this repo's `toolkit/` folder: copy it to a working folder and run `setup.sh`, which checks for Python 3, Node and ffmpeg and installs the rest. Never rebuild the engine from scratch.
+- **Plan doc first** (the series plan, in Claude Docs; without Claude Docs, a `plan/` folder of Markdown files in the person's own project): its status block says what's built, open and next; it holds the approved scripts; its season **review rules** bind every episode of the season. No plan yet: create one (see `script-and-review.md`).
 - **The workspace can be wiped between sessions.** Anything not in an artifact, the plan doc, the repo or a delivered file is lost. Send deliverables as soon as they're checked.
 - **One toy model per season, in one file** (e.g. `toy.py`); every number on screen comes from it. Before changing toy values, check what later episodes depend on them; fix readability by how the toy is explained first.
 - **This skill is shared.** Improve it in a branch and a pull request so the other maintainers review it. Keep it lean: a new rule replaces or merges with an old one where it can, detail goes in the reference file for its step, and series-specific choices (names, inks) stay marked as choices.
@@ -65,4 +65,4 @@ These hold on every episode. Each is explained, with examples, in the reference 
 - Every number matches the fact-check, and the worked examples run in code at screen precision.
 - Overlap and clutter checks are clean, and the contact sheets show no residue, clipped text or labels on drawings.
 - The viewer pass passes: each chapter changes the spine picture; each number could be predicted before it appears; there's a wrong guess, a prediction pause and a dial; and you can name the one image a viewer will remember in a month.
-- Deliverables sent, player published to the episode's existing artifact, plan doc status updated.
+- Deliverables sent, player published (to the episode's existing artifact when artifacts are available), plan status updated.
