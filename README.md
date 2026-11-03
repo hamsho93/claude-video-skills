@@ -6,7 +6,7 @@ A shared skill and build kit for narrated, hand-drawn animated lessons ("Margin 
 
 | path | what it is |
 |---|---|
-| `.claude/skills/notes-to-animated-lesson/SKILL.md` | the skill. Loads automatically in any Claude session that has this repo attached. |
+| `.claude/skills/notes-to-animated-lesson/` | the skill: `SKILL.md` (the map and the core rules, read every session) and `references/` (one file per step, read only at that step). Loads automatically in any Claude session that has this repo attached. |
 | `toolkit/` | the build kit: the SVG engine and drawing kits, the player, and the Python pipeline (voice, build, checks, render, mux, cover, extended cuts). `toolkit/TOOLKIT.md` is its guide. |
 | `toolkit/examples/` | a starter episode (`demo/`), the full episode 06 scene, and the T02 scene and script (the guided-number style). |
 | `season-transformers/` | the Transformers season's toy model (`toy.py`, one ledger for all eight episodes) and the T02 sources. |
@@ -19,7 +19,8 @@ A shared skill and build kit for narrated, hand-drawn animated lessons ("Margin 
 
 ## Maintaining it together
 
-- The skill file is the single source. Change it in a branch and open a pull request; a one-line summary of what the session learned and why is enough.
-- Pipeline fixes go in `toolkit/py` or `toolkit/web`, with the gotcha noted in `toolkit/TOOLKIT.md`.
-- Season-specific rules (section 13 of the skill) are a template; a new series writes its own list in its plan doc.
+- The skill folder is the single source. Change it in a branch and open a pull request; a one-line summary of what the session learned and why is enough.
+- Keep it lean, so a session's context isn't spent on the skill: `SKILL.md` holds only the workflow and the rules that apply to every episode (aim to stay under about 1,500 words); detail goes in the reference file for its step; a new rule replaces or merges with an old one where it can.
+- Pipeline fixes go in `toolkit/py` or `toolkit/web`, with the gotcha noted in `toolkit/TOOLKIT.md` (commands and engine notes live there, not in the skill).
+- The season review rules in `references/script-and-review.md` are a template; a new series writes its own list in its plan doc.
 - Don't commit rendered video, voice caches or `out/` folders (see `.gitignore`).
