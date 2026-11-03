@@ -1,0 +1,19 @@
+{
+  "slug": "margin-notes-t02-why-three-matrices",
+  "title": "Why three matrices?",
+  "label": "Episode T02",
+  "description": "Margin Notes · Transformers T02: why attention learns three matrices instead of comparing words directly, every number worked by hand: a raw comparison scores both directions the same and listens mostly to itself; Wq and Wk make the match one-way and learnable; the score table puts queries down the side and keys across the top; handing over keys leaves the river bank and the loan bank identical, so Wv carries the contents; a training step shapes each matrix by its job; and eight heads make about a million numbers per layer.",
+  "aria": "Animated notebook pages: the toy rows of X with columns 1, 2 and 3; bank against river worked term by term both ways, and the raw table shown to be its own mirror; the raw softmax worked step by step in one row of boxes; queries and keys made from X through Wq and Wk; the score formula both ways, 3.24 and 0.08; the score table with q(word) down the side and k(word) across the top, each row through softmax; keys handed over as contents give both banks the same blend while values keep them apart; two hires get nudges shaped like the looker and the target, and one step raises the score from 3.24 to 3.35; eight heads of 64 numbers joined to 512, about a million numbers per attention layer.",
+  "mp4_title": "Margin Notes · Transformers T02 · Why three matrices?",
+  "scene": "scene.js",
+  "script": "script.py",
+  "kits_extra": [],
+  "lead": 1.6,
+  "tail": 3.0,
+  "cover_crop": [
+    402,
+    166,
+    1016,
+    860
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "margin-notes-99-toolkit-test",
+  "title": "Toolkit Test",
+  "label": "Episode 99",
+  "description": "Margin Notes toolkit test: a softmax, a loss and one line of code.",
+  "aria": "Animated notebook pages: scores become probabilities, the loss takes minus the log of the right piece, and the one line of code that does it.",
+  "mp4_title": "Margin Notes 99 · Toolkit test",
+  "scene": "scene.js",
+  "script": "script.py",
+  "kits_extra": [],
+  "lead": 1.6,
+  "tail": 3.0
+}

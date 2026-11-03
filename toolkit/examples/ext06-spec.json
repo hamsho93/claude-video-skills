@@ -1,0 +1,20 @@
+{
+ "_comment": "The 06 extended cut as built: chapters 1-4, the LoRA dive, chapters 5-6, the imitation dive (which carries the end card). cut1 = beat c5_01.t - 0.95; cut2 = beat c6_06.end + 0.5. Chapter lists come from each video's timing.json (Intro dropped, first chapter at 0, dive chapters prefixed).",
+ "out": "/home/claude/margin-notes-06-extended.mp4",
+ "srt_out": "/home/claude/margin-notes-06-extended.srt",
+ "title": "Margin Notes 06 · Learning by imitation (extended cut)",
+ "segments": [
+  {"mp4": "/home/claude/margin-notes-06-learning-by-imitation.mp4", "srt": "ep06/out/margin-notes-06-learning-by-imitation.srt",
+   "t0": 0, "t1": 188.99, "hold": 1.5,
+   "chapters": [[0.0, "Keep only the good flights"], [54.83, "Look before you filter"], [84.25, "Every step becomes an example"], [126.12, "A thin layer"]]},
+  {"mp4": "/home/claude/margin-notes-06-deep-dive-lora.mp4", "srt": "lora/out/lora.srt", "t0": 0, "t1": null,
+   "chapters": [[0.0, "Deep dive: LoRA · What it learns from"], [56.38, "Deep dive: LoRA · What training changes"], [83.86, "Deep dive: LoRA · The trick, at toy size"],
+                [113.03, "Deep dive: LoRA · Real sizes"], [139.53, "Deep dive: LoRA · The code"], [170.70, "Deep dive: LoRA · The run and shipping it"], [208.12, "Deep dive: LoRA · Did it work?"]]},
+  {"mp4": "/home/claude/margin-notes-06-learning-by-imitation.mp4", "srt": "ep06/out/margin-notes-06-learning-by-imitation.srt",
+   "t0": 188.99, "t1": 270.63,
+   "chapters": [[188.99, "The student matches the teacher"], [234.91, "The data is the lever"]]},
+  {"mp4": "/home/claude/margin-notes-06-deep-dive-imitation.mp4", "srt": "dive06/out/margin-notes-06-deep-dive-imitation.srt", "t0": 0, "t1": null,
+   "chapters": [[0.0, "Deep dive: imitation · Copying, with a filter"], [46.95, "Deep dive: imitation · The filter keeps the teacher's best, never more"],
+                [89.93, "Deep dive: imitation · Small slips add up"], [123.42, "Deep dive: imitation · Two ways out"]]}
+ ]
+}

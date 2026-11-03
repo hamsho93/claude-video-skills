@@ -1,0 +1,9 @@
+out/
+clips/
+__pycache__/
+*.wav
+*.mp4
+*.png
+*.npy
+ledger.json
+toolkit/models/
