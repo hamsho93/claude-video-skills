@@ -5,7 +5,7 @@ python3 build.py EPDIR --voice    -> out/<slug>.html (voice embedded as an MP3 d
 Order inside the one script: engine (+ kit 4), TM, kits (6, 9, 10), the episode's extra kits, EP_LABEL, scene, player.
 Every page declares <meta charset="utf-8"> (file:// renders without it come out Latin-1: "Â·").
 """
-import base64, html, os, subprocess, sys, tempfile
+import json, base64, html, os, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import epdir, config, out, WEB
 
@@ -29,7 +29,7 @@ def main():
     parts = ["(() => {\n'use strict';", read(os.path.join(WEB, 'engine.js')), read(out(d, 'timing.js')),
              read(os.path.join(WEB, 'kits.js'))]
     parts += [read(os.path.join(d, k)) for k in c['kits_extra']]
-    parts += [f'const EP_LABEL = {c["label"]!r};', read(os.path.join(d, c['scene'])), read(os.path.join(WEB, 'player.js')), '})();']
+    parts += [f'const EP_LABEL = {c["label"]!r}, SERIES = {json.dumps(c["series"])};', read(os.path.join(d, c['scene'])), read(os.path.join(WEB, 'player.js')), '})();']
     js = '\n'.join(p.rstrip('\n') for p in parts) + '\n'
     if '</script' in js:
         raise SystemExit('the script contains "</script": escape it in the scene')

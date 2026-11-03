@@ -7,3 +7,4 @@ __pycache__/
 *.npy
 ledger.json
 toolkit/models/
+toolkit/.deps/

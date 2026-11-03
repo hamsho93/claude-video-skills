@@ -14,8 +14,11 @@ A shared skill and build kit for narrated, hand-drawn animated lessons ("Margin 
 ## Using it
 
 1. Attach this repo to a Claude session (Claude Code, or "add repository" in the Claude app). The skill loads on its own; say what you want to make and it takes over.
-2. The session copies `toolkit/` to a working folder and runs `setup.sh` (Kokoro voice model, fonts, MathJax, Playwright). Chromium must be available.
-3. Scripts are approved in a plan doc before anything is voiced or built. The skill says how.
+2. The session copies `toolkit/` to a working folder and runs `setup.sh`. In a Claude cloud session everything it needs is already there. On your own machine you need Python 3, Node and ffmpeg; setup checks for them and installs the rest, including the browser that renders frames. The voice model (~340 MB) downloads on first use.
+3. The plan and scripts go in Claude Docs when you have it, otherwise in a `plan/` folder of Markdown files in your own project.
+4. Scripts are approved before anything is voiced or built. The skill says how.
+
+Pick your own series name: set `"series"` in each episode's `episode.json` (it defaults to "Margin Notes" and appears on every page and in the MP4's metadata).
 
 ## Maintaining it together
 

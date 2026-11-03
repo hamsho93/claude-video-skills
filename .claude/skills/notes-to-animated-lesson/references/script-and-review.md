@@ -5,6 +5,7 @@
 - One Claude Docs doc per series: a **status block** (built, open, next, where the toolkit lives), the season map, how the season builds, the spine table, arcs, the season's **review rules** (template below), episode outlines, and one tab per episode script.
 - Update the status block at the end of every session, so a fresh session can pick up.
 - Credits to the person's notes, and where the script differs from them, live here, never on screen.
+- **Without Claude Docs:** keep the plan as `plan/PLAN.md` (status block first) and one `plan/<episode>-script.md` per episode, in the person's own project folder or repo, not in this shared repo. Send the script file for approval and take comments in chat; everything else on this page applies the same way.
 
 ## The script, as tables
 
@@ -22,7 +23,7 @@ After approval, voice the script (`tts.py`) and run `animatic.py`: the voice ove
 
 Add build notes to the tab: where the screen differs from the approved tables, and what was checked.
 
-## Editing Claude Docs
+## Editing Claude Docs (when the plan is there)
 
 - Read a long tab once, save the JSON result, and extract block ids and hashes with a script. Find-by-quote fails on text that carries markdown markers, so target blocks by id with `ifHash` and `ifRev` from that read.
 - Use an outline read to see the tab's top-level blocks before a restructure; delete and insert by block id.

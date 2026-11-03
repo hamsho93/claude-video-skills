@@ -96,7 +96,7 @@ for k, s in enumerate(segs):
             chs.append([max(0.0, t - s['t0'] + starts[k]), name])
 chs.sort()
 chs[0][0] = 0.0
-meta = [';FFMETADATA1', f"title={spec['title']}", 'artist=Margin Notes']
+meta = [';FFMETADATA1', f"title={spec['title']}", f"artist={spec.get('series', 'Margin Notes')}"]
 for i, (t, name) in enumerate(chs):
     end = chs[i + 1][0] if i + 1 < len(chs) else total
     meta += ['[CHAPTER]', 'TIMEBASE=1/1000', f'START={int(t * 1000)}', f'END={int(end * 1000)}', f'title={name}']

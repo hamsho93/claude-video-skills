@@ -4,15 +4,15 @@ Everything needed to build a Margin Notes episode, deep dive or extended cut. Th
 
 ## Set up
 
-- **From the repo:** `cp -r toolkit ~/mn-toolkit && bash ~/mn-toolkit/setup.sh`
-- **From the toolkit artifact** (sessions without the repo): list its files, `read` them all, copy them into one folder keeping relative paths (a file published as `x.py.txt` is `x.py`: drop the `.txt`), then run `setup.sh`. The skill's reference files are there too, under `skill/`.
-- `setup.sh` installs local MathJax 3.2.2 and fonts (renders never touch the network), kokoro-onnx, Pillow and Playwright. Chromium is preinstalled. Kokoro's model files (~340 MB) download on the first `tts.py` run.
+- `cp -r toolkit ~/mn-toolkit && bash ~/mn-toolkit/setup.sh`
+- Needs Python 3, Node (npm) and ffmpeg; `setup.sh` stops with a clear message if one is missing. It installs local MathJax 3.2.2 and fonts (renders never touch the network), kokoro-onnx, Pillow and Playwright, and installs Playwright's Chromium only if no working browser is found (Claude cloud sessions already have one). Kokoro's model files (~340 MB) download on the first `tts.py` run.
 
 ## Make an episode
 
 ```
 TK=~/mn-toolkit/py; EP=~/ep07
 cp -r ~/mn-toolkit/examples/demo $EP            # episode.json, script.py, scene.js
+# edit episode.json (series, slug, title, label, description, aria, mp4_title), script.py, scene.js
 python3 $TK/fake_timing.py $EP                   # estimated timing: build the scene before the voice
 nohup python3 $TK/tts.py $EP > $EP/tts.log 2>&1 &   # voice + timing (cached per line)
 python3 $TK/animatic.py $EP                      # voice over one card per line: send before the build

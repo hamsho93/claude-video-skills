@@ -24,7 +24,7 @@ function build(host) {
   const grp = (ms, name) => ms.forEach(m => { if (m) { m.grp = name; if (m.T) m.T.grp = name; } });   /* moves as one in the clutter probe */
   const pulse = (m, t, k = 1.18) => { const s = m.cur.s; S.set(m, t, 0.25, { s: s * k }); S.set(m, t + 0.25, 0.35, { s }); };
   const pageTitle = (p, text, t) => {
-    const tag = p(H(`Margin Notes · ${EPN} · ${EPT}`, 24, P.olive, { anchor: 'start', w: 700 }), 150, 60);
+    const tag = p(H(`${SERIES} · ${EPN} · ${EPT}`, 24, P.olive, { anchor: 'start', w: 700 }), 150, 60);
     const ti = p(H(text, 46, P.green, { anchor: 'start', w: 700 }), 148, 110);
     const un = p(ink(rl(146, 142, 158 + ti.textEl.getComputedTextLength(), 140, { bow: 0.003 }), P.green, 4), 0, 0);
     W(tag, t, 0.4); W(ti, t + 0.1, 0.9); W(un, t + 0.9, 0.35);
@@ -56,7 +56,7 @@ function build(host) {
 
   /* ================= title page (0,1) ================= */
   const pT = pg(0, 1);
-  const iTag = label(pT, 'Margin Notes · ' + EPN, 960, 330, P.olive, 40);
+  const iTag = label(pT, SERIES + ' · ' + EPN, 960, 330, P.olive, 40);
   const iTi = pT(H(EPT, 120, P.green, { w: 700 }), 960, 455);
   const iUn = pT(ink(rl(560, 540, 1360, 536, { bow: 0.004 }), P.green, 5), 0, 0);
   W(iTag, 0.3, 0.6); W(iTi, a('title') - 1.1, 1.3); W(iUn, a('title') + 0.3, 0.4);
@@ -106,7 +106,7 @@ function build(host) {
   /* ================= (1,1) · end card ================= */
   const p3 = pg(1, 1), tE = bt('c2_02').end + 0.6;
   go(1, 1, tE, 1.1);
-  const eTag = label(p3, `Margin Notes · ${EPN} · ${EPT}`, 960, 330, P.olive, 34);
+  const eTag = label(p3, `${SERIES} · ${EPN} · ${EPT}`, 960, 330, P.olive, 34);
   const eCard = gm(p3, endCardG(NEXT), C_OK, 960, 520);
   W(eTag, tE + 0.6, 0.6); F(eCard, tE + 0.9, 0.6, { dy: 14 });
   /* outro: zoom out over the whole spread (scene runs past the voice; the player uses the longer of the two) */
