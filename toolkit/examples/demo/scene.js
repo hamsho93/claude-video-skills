@@ -90,7 +90,7 @@ function build(host) {
   const hlR = p1(hlBar(170, 1130, 330, 64, P.hlL), 0, 0);   /* hlBar already returns a mob */
   S.behind(hlR, rows[0].nm);
   F(hlR, a('right') - 0.2, 0.4); W(fL, a('log') - 0.2, 1.0);
-  take(p1, ['The loss only asks: how sure was it of the right piece?'], 960, 960, 1000, bt('c1_02').end - 0.2);
+  take(p1, ['The loss only asks: how sure was it of the right piece?'], 960, 960, 1000, bt('c1_03').end - 0.2);
 
   /* ================= (1,0) · chapter 2 · the code ================= */
   const p2 = pg(1, 0), t2 = bt('c2_01').t;
