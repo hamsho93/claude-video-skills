@@ -1,7 +1,8 @@
 """Render frames k of K into out/part{k}.mp4 (30 fps, 1920x1080).
 python3 render.py EPDIR k K
-Run the K parts in parallel in the background (2 CPUs: K = 2; one worker alone does about 10 frames/s,
-two at once about 4 each). Don't run TTS alongside. Then mux.py.
+Run the K parts in parallel in the background, one per spare core (2 CPUs: K = 2, about 4 frames/s each;
+12 CPUs: K = 4, about 20 frames/s each). Don't run TTS alongside. Each part overwrites its own out/part{k}.mp4,
+so nothing needs deleting first. After a fix, re-render only the parts whose frames changed (same K), then mux.py.
 """
 import os, subprocess, sys, time
 from playwright.sync_api import sync_playwright

@@ -11,6 +11,7 @@ Watched in order, each episode should feel like the obvious next question. Plan 
 - **Each episode: a question a viewer would ask, and an ending that hands the next episode its problem.** Arcs group episodes that share one larger question.
 - **One rule per layer, shown as a picture,** with one measured result. Full arithmetic goes to the extended cut.
 - **Spine table:** idea, first taught (episode, chapter), called back in. Every callback comes after "first taught".
+- **Callbacks are dependencies.** When an episode quotes an earlier one ("last time we called that a probability"), record the pair of lines in the plan doc and check them with a script. Rewriting the earlier episode then means a written proposal for the later one's lines (which change, which stay and why), the person's approval, and a re-voice of only those lines.
 - **Binge-watch review:** read the episode list in order as a viewer. Flag ideas used before taught, callbacks past an unrelated episode, ideas taught twice, episodes that don't follow from the last ending. Fix by moving material, not by adding recap lines.
 - **Renumbering:** list which built episodes' lines and end cards change, and how long the re-voice and re-render take.
 
@@ -31,6 +32,6 @@ Watched in order, each episode should feel like the obvious next question. Plan 
 ## Format
 
 - **YouTube, 16:9 at 1920×1080,** one video split into YouTube chapters (each at least 10 s, the first at 0:00, so a short title card belongs to chapter 1). Separate videos only when each answers its own question.
-- **Length follows the voice:** estimate about 10 to 12 lines a minute at normal pace (slow number lines run about half that); aim near 9 minutes. Typical viewers stop around 6 minutes, so each chapter should stand on its own as a segment.
+- **Length follows the voice:** estimate about 10 to 12 lines a minute at normal pace (slow number lines run about half that); aim near 9 minutes (a season may set its own target; write it in the review rules). Typical viewers stop around 6 minutes, so each chapter should stand on its own as a segment.
 - **Deep dive = extended cut:** a longer video that goes further (data, code, math), joined into the episode after the chapter it extends (details in `build-check-deliver.md`).
 - **Vertical clips only when asked.**

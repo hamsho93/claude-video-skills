@@ -9,8 +9,8 @@ from common import epdir, config, beats, out, plain
 
 W, H = 1280, 720
 PAPER, INK, GREEN, SOFT, ORANGE = '#F6F6EA', '#1A1A1A', '#1E5631', '#7A7F80', '#F2A33A'
-FONT = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
-BOLD = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+FONT = next((f for f in ('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', '/System/Library/Fonts/Supplemental/Arial Unicode.ttf') if os.path.exists(f)), '')
+BOLD = next((f for f in ('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', '/System/Library/Fonts/Supplemental/Arial Bold.ttf') if os.path.exists(f)), '')
 
 
 def font(p, s):

@@ -2,6 +2,14 @@
 
 A script that is all true can still lose the viewer in the first minute. Test every chapter against these before recording.
 
+## Audience
+
+Decide the audience with the person before scripting, and write it in the plan doc's review rules.
+
+- **Newcomers:** everyday words first, one analogy per concept, technical terms only when later chapters use them.
+- **Engineers (staff level):** a clear, in-depth discussion, never an oversimplified one. Name the real term the first time the idea appears (logits, softmax, cross-entropy, negative log-likelihood, gradient descent, parameters) and say why each step is the way it is (why the log: products become sums; the slope at the logits is p − y). Simplify by leaving parts out and listing them on screen ("what the toy leaves out: word order, extra layers, layer norm"), not by renaming or blurring what is shown. Analogies only where they map the mechanism; none is fine.
+- **Words that collide.** A friendly word for a real term is fine once both are said ("308 parameters; we'll call them dials"); a word that already means something else in the field is not ("weights" for parameters when attention weights are on screen; "score" for a probability when scores will mean logits). Fix it in the script before voicing: a later episode inherits the word.
+
 ## Order of ideas
 
 - **Picture first, then the name, then the number.** Show the idea working before naming it; name it before putting a number on it.
@@ -30,7 +38,7 @@ A script that is all true can still lose the viewer in the first minute. Test ev
 
 ## The numbers
 
-- **Work in full the calculations that carry the argument; name the rest.** Every product, every sum, the result, for the step that proves the point. A softmax worked in an earlier episode, a parameter count, a training step in an episode about something else: one line ("as T01 worked it: 27, 30, 43") and a pointer to where it's worked. Everything worked on screen is at the same precision (three decimals).
+- **Work in full the calculations that carry the argument; name the rest.** Every product, every sum, the result, for the step that proves the point. A softmax worked in an earlier episode, a parameter count, a training step in an episode about something else: one line ("as T01 worked it: 27, 30, 43") and a pointer to where it's worked. Everything worked on screen is at one precision, a season choice (T02: three decimals; the encoder-decoder season: two decimals, rounded at every step so each step can be checked with a calculator, and one note showing full precision gives the same story).
 - **Guide the eye.** The question first, in words. The formula on top as the map, with the part being worked lit. The values in one row of boxes that change in place (old value small and grey above the new, a bar for size). One example aloud with its numbers flying in from where they came, then the rest together. Zero terms greyed. One working line at a time, collapsing to its result. The voice says at most two numbers per line; the screen carries the rest.
 - **Label each part of a formula by its job,** in plain words, with braces or small tags while the formula is the map: QKᵀ "how well each note matches each label", ÷√dₖ "keeps the scores small", softmax "turns scores into shares". Dim the labels once the viewer knows them; bring one back when its part is worked.
 - **Show where every number comes from.** A vector flies in from its row; a matrix is written out before it's used; a result travels to where it's used next. If a page needs data from the previous page, it slides along with the camera.
@@ -43,8 +51,9 @@ A script that is all true can still lose the viewer in the first minute. Test ev
 - **The analogy and the math meet.** Say the numbers in the analogy's words in the same breath as the digits ("bank's note reads 3.6: it's asking loudly"). One analogy per concept, kept for the whole episode; it must map the mechanism (say what corresponds to what) and say where it breaks if a later chapter depends on that.
 - **Every claim answers its why,** in one clause or picture ("4 billion weights at 2 bytes is about 8 GB, which fits a laptop's memory"). An engineering lesson needs its concrete story or gets cut.
 - **Make units concrete the first time** (the 16 pieces of one real move); say what one training example is and show one real row with its path.
-- **Toys say they're toys:** made up and why, what point in training they stand for, their simplifications in the fact notes. Where the toy makes a result trivial (a key that is one number), say so and why the point survives at real size.
-- **Everyday words and units:** "a tenth of a second", "nearly a million numbers". Keep a technical term only if later chapters use it; define it in plain words the first time.
+- **Toys say they're toys:** made up and why, what point in training they stand for, their simplifications in the fact notes.
+- **Honest examples.** A chosen seed, run or sentence gets its base rate on screen: how often the shown behaviour happens across random starts or other runs (in this run, the top word was wrong; over 1,000 starts it was right 454 times, the other sense 414, the end marker 132: close to chance). Say "a typical run" only with the count behind it. Where the toy makes a result trivial (a key that is one number), say so and why the point survives at real size.
+- **Everyday words and units:** "a tenth of a second", "nearly a million numbers". Define a technical term in plain words the first time; for newcomers keep it only if later chapters use it, for engineers always give it.
 - **Short spoken lines:** one or two sentences per line, a rhetorical question where it helps ("Why does this work? Because..."). Read each aloud; one that's hard to say is too long.
 - **One plain takeaway per chapter,** on a short card for at least 2 s, then the hand-off.
 
