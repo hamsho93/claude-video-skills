@@ -13,7 +13,8 @@ In episode.json:
                       "ep2": {"p_correct": "ep2.p_correct"}},
              "audit_also": ["robustness.n_runs"],      more paths whose numbers may be drawn (besides everything picked)
              "audit_allow": [100],                     literal numbers that may be drawn (a sum shown as 100%)
-             "audit_small_ints": 10}                   whole numbers up to this are labels, not data (episode number, "2 decimals")
+             "audit_small_ints": 10,                   whole numbers up to this are labels, not data (episode number, "2 decimals")
+             "audit_round": 2}                         also accept each picked value rounded to this many decimals (stored 2.452, shown 2.45)
 
 python3 ledger.py js EPDIR                  -> EPDIR/<js>: const LED = {...}, the scene's only source of numbers
 python3 ledger.py audit EPDIR               every number drawn in out/page.html is a picked value (or its percent); run after build.py
@@ -71,19 +72,26 @@ def fill(L, s, extra=None):
     return re.sub(r'\{\{([^}]+)\}\}', lambda m: extra[m.group(1)] if m.group(1) in extra else text(L, m.group(1)), s)
 
 
-def numbers(x, out=None):
-    """Every number in a ledger value, with its percent when it is a share (|v| <= 1)."""
+def half_away(v, d):
+    """Round half away from zero, the way the screen and people round (Python's round() goes to even)."""
+    from decimal import Decimal, ROUND_HALF_UP
+    return float(Decimal(repr(v)).quantize(Decimal(1).scaleb(-d), rounding=ROUND_HALF_UP))
+
+
+def numbers(x, out=None, rnd=None):
+    """Every number in a ledger value, with its percent when it is a share (|v| <= 1); with rnd, also each one rounded to rnd decimals."""
     out = set() if out is None else out
     if isinstance(x, bool):
         return out
     if isinstance(x, (int, float)):
         out.add(round(abs(float(x)), 6))
+        if rnd is not None: out.add(round(abs(half_away(float(x), rnd)), 6))
         if abs(x) <= 1:
             out.add(round(abs(float(x)) * 100, 6))
     elif isinstance(x, list):
-        for v in x: numbers(v, out)
+        for v in x: numbers(v, out, rnd)
     elif isinstance(x, dict):
-        for v in x.values(): numbers(v, out)
+        for v in x.values(): numbers(v, out, rnd)
     return out
 
 
@@ -114,8 +122,9 @@ def cmd_audit(d):
     from playwright.sync_api import sync_playwright
     from page import open_page
     c, g, L = episode(d)
-    allowed = numbers(picked(L, g['pick']))
-    for p in g.get('audit_also', []): numbers(get(L, p), allowed)
+    rd = g.get('audit_round')
+    allowed = numbers(picked(L, g['pick']), None, rd)
+    for p in g.get('audit_also', []): numbers(get(L, p), allowed, rd)
     allowed |= {round(float(v), 6) for v in g.get('audit_allow', [])}
     small = g.get('audit_small_ints', 10)
     with sync_playwright() as pw:

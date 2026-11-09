@@ -41,7 +41,7 @@ python3 $TK/series_check.py series.json     # identities across episodes, stale 
 python3 $TK/ledger.py fill $EP youtube.tmpl.md   # YouTube text: {{f2:path}} and {{chapters}} filled in
 ```
 
-The audit proves each drawn number exists among the picked values, not that it is the right one (0.31 may be two different things); `script_check.py` is the card-by-card check. A claim that needs logic ("raised is a money word") goes in the season's own small checker, which can `import ledger` and use `ledger.get` and `ledger.fill`.
+Values stored to more decimals than the screen shows (2.452 shown as 2.45) pass the audit with `"audit_round": 2` in the ledger block (rounding half away from zero, as the screen does). The audit proves each drawn number exists among the picked values, not that it is the right one (0.31 may be two different things); `script_check.py` is the card-by-card check. A claim that needs logic ("raised is a money word") goes in the season's own small checker, which can `import ledger` and use `ledger.get` and `ledger.fill`.
 
 ## Script format (`script.py`)
 
