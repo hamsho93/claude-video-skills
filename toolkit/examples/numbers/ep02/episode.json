@@ -1,0 +1,9 @@
+{
+ "label": "Episode 2",
+ "ledger": {
+  "file": "../toy-ledger.json",
+  "js": "ledger_js.js",
+  "pick": {"day_one_P": "ep1.P_pos1", "logits": "ep1.logits_pos1", "ep2": {"p_correct": "ep2.p_correct", "L1": "ep2.L1_from_displayed_p", "perplexity": "ep2.perplexity"}},
+  "audit_allow": [100]
+ }
+}

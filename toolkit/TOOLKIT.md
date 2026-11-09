@@ -29,6 +29,20 @@ python3 $TK/build.py $EP --voice                 # out/<slug>.html with the voic
 python3 $TK/ext_cut.py spec.json                 # extended cut (see examples/ext06-spec.json)
 ```
 
+## Numbers: one ledger, checked everywhere
+
+The season's toy writes one JSON ledger; nothing on screen, in the voice or in the YouTube text is typed by hand. Put derived values (a count, a list of which runs passed) in the ledger when the toy writes it, not in glue code, so every tool can read them. Paths are dotted (`ep2.surprise_table.*.p`, `ep8.snapshots.-1.P_pos1`; a key may contain dots); forms are `f2:` (0.11, minus as −), `abs:` (no sign), `pct:` (11), `int:`, `raw:`. Worked example: `examples/numbers/` (an excerpt of a real season).
+
+```
+python3 $TK/ledger.py js $EP                # episode.json "ledger" block -> ledger_js.js (const LED), listed in kits_extra
+python3 $TK/script_check.py checks.json     # before voicing: each card carries exactly its ledger numbers; phrases; terms first said where defined
+python3 $TK/ledger.py audit $EP             # after build: every number drawn on the page is a picked ledger value
+python3 $TK/series_check.py series.json     # identities across episodes, stale terms, callbacks, subtitles = narration, YouTube chapters
+python3 $TK/ledger.py fill $EP youtube.tmpl.md   # YouTube text: {{f2:path}} and {{chapters}} filled in
+```
+
+Values stored to more decimals than the screen shows (2.452 shown as 2.45) pass the audit with `"audit_round": 2` in the ledger block (rounding half away from zero, as the screen does). The audit proves each drawn number exists among the picked values, not that it is the right one (0.31 may be two different things); `script_check.py` is the card-by-card check. A claim that needs logic ("raised is a money word") goes in the season's own small checker, which can `import ledger` and use `ledger.get` and `ledger.fill`.
+
 ## Script format (`script.py`)
 
 `B(id, cap, say=None, pause=0.45, ch=None, slow=False, think=False, see=None)`, as in `examples/demo/script.py`:
@@ -76,6 +90,9 @@ python3 $TK/ext_cut.py spec.json                 # extended cut (see examples/ex
 | py/clutter.py | movers-at-once probe |
 | py/scan.py | empty-page scan of the built page or the final MP4 |
 | py/parts.py | joins a scene written in parts and checks anchors, line ids and names |
+| py/ledger.py | the season ledger: paths and forms; `js` (scene constants), `audit` (numbers drawn on the page), `fill` (YouTube text) |
+| py/script_check.py | script table against the ledger, card by card, before voicing |
+| py/series_check.py | what travels across episodes: identities, stale terms, callbacks, subtitles, YouTube chapters |
 | py/render.py | frames k of K into out/part{k}.mp4 |
 | py/mux.py | parts + voice + subtitles + chapters into the MP4 |
 | py/cover.py | YouTube cover |
@@ -89,3 +106,4 @@ python3 $TK/ext_cut.py spec.json                 # extended cut (see examples/ex
 | examples/t02-scene.js, t02-script.py | T02 v5: guided-number helpers and a 4 × 3 spread built in parts |
 | examples/ep06-scene.js, ep06-timing.js | episode 06, every kit in use; a regression test |
 | examples/ext06-spec.json | the 06 extended cut spec |
+| examples/numbers/ | the number tools on an excerpt of a real season: ledger, two script excerpts, checks.json, series.json, a YouTube template |

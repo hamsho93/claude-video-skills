@@ -23,7 +23,7 @@ Commands, the engine's API and its gotchas are in the toolkit's `TOOLKIT.md`; th
 - **Clutter** (`clutter.py`): windows with more than 2 movers; fix by staggering or grouping parts that move as one. It samples every 0.1 s, so re-run it after any re-voice: a shift of a fraction of a second can move a short overlap onto a sample.
 - **Empty pages** (`scan.py`): every 0.25 s on the built page, and again on the final MP4 (`--mp4`); every stretch of 0.75 s or more with an empty page is a page whose first mark comes after the camera lands (`look-and-motion.md`). Only the opening may stay. The other checks can't see this: they look at each line's end.
 - **Density:** per chapter, each number arrives after its picture and its prediction; only the calculations that carry the argument are worked in full.
-- **Numbers:** every number on screen matches the fact-check; run the worked examples in code at screen precision, rounding at each step as the screen does.
+- **Numbers:** every number on screen matches the fact-check; run the worked examples in code at screen precision, rounding at each step as the screen does. With a ledger: `script_check.py` before voicing, `ledger.py audit` after the build, `series_check.py` after every script edit and render (it catches a revised episode breaking a later one's callback, and subtitles or YouTube chapters gone stale after a re-voice).
 - **Flow:** every callback points to an earlier episode or chapter, matching the spine table.
 - **Player:** play, a chapter chip, clock and voice agree, no page errors.
 - **Report only what ran.** In the delivery message and the build notes, a check is "passed" only if a tool ran it on this build; say which ones didn't run.
@@ -42,6 +42,6 @@ Commands, the engine's API and its gotchas are in the toolkit's `TOOLKIT.md`; th
 
 - The narrated player (`build.py EP --voice`) as an Artifact, republished to the episode's existing URL.
 - The MP4 (soft subtitles, chapters) and .srt; the extended cut and its .srt when there is one; the cover.
-- A YouTube text file per video: title, description, chapters (first at 0:00), and "the numbers on screen" (every worked value, with the toy's conventions), the supporting numbers and citations the main cut left out.
+- A YouTube text file per video (`ledger.py fill` from a template, so its numbers and chapters are never typed): title, description, chapters (first at 0:00), and "the numbers on screen" (every worked value, with the toy's conventions), the supporting numbers and citations the main cut left out.
 - Update the plan doc: build notes, deep-dive table, status block.
 - **Delivery message:** what it is and how long; what to upload where; what changed from the approved script; anything that differs from the sources and why; one next step.
