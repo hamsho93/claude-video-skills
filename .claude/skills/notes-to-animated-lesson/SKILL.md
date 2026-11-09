@@ -25,7 +25,7 @@ This file is the map. Read a reference file only when you reach its step; don't 
 - **Toolkit:** this repo's `toolkit/` folder: copy it to a working folder and run `setup.sh`, which checks for Python 3, Node and ffmpeg and installs the rest. Never rebuild the engine from scratch.
 - **Plan doc first** (the series plan, in Claude Docs; without Claude Docs, a `plan/` folder of Markdown files in the person's own project): its status block says what's built, open and next; it holds the approved scripts; its season **review rules** bind every episode of the season. No plan yet: create one (see `script-and-review.md`).
 - **The workspace can be wiped between sessions.** Anything not in an artifact, the plan doc, the repo or a delivered file is lost. Send deliverables as soon as they're checked.
-- **One toy model per season, in one file** (e.g. `toy.py`); every number on screen comes from it. Before changing toy values, check what later episodes depend on them; fix readability by how the toy is explained first.
+- **One toy model per season, in one file** (e.g. `toy.py`), writing one ledger; every number on screen, in the voice and in the YouTube text comes from it, and the toolkit's number tools check that (`TOOLKIT.md`, "Numbers"). Before changing toy values, check what later episodes depend on them; fix readability by how the toy is explained first.
 - **This skill is shared.** Improve it in a branch and a pull request so the other maintainers review it. Keep it lean: a new rule replaces or merges with an old one where it can, detail goes in the reference file for its step, and series-specific choices (names, inks) stay marked as choices.
 
 ## The workflow (gates in bold)

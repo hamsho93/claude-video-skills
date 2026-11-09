@@ -1,0 +1,93 @@
+{
+ "_about": "An excerpt of a real season ledger (the encoder-decoder toy behind 'Transformer: Unraveling the blackbox', episodes 1 and 2). A season's toy script writes the full file; every number an episode shows or says is read from it.",
+ "meta": {
+  "n_params": 308,
+  "out_vocab": [
+   "flooded",
+   "eroded",
+   "collapsed",
+   "approved",
+   "closed",
+   "raised",
+   "<eos>"
+  ]
+ },
+ "ep1": {
+  "P_pos1": [
+   0.11,
+   0.19,
+   0.13,
+   0.15,
+   0.15,
+   0.21,
+   0.06
+  ],
+  "logits_pos1": [
+   -0.02,
+   0.56,
+   0.23,
+   0.33,
+   0.36,
+   0.67,
+   -0.64
+  ],
+  "even_guess_loss_ln_outputs": 1.95,
+  "L1": 2.21
+ },
+ "ep2": {
+  "P_pos1": [
+   0.11,
+   0.19,
+   0.13,
+   0.15,
+   0.15,
+   0.21,
+   0.06
+  ],
+  "p_correct": 0.11,
+  "L1_from_displayed_p": 2.21,
+  "perplexity": {
+   "even_guess": 7,
+   "floor": 3,
+   "note": "e to the loss: how many equally likely words give that loss (even guess over 7 outputs, and the floor over 3 right endings)"
+  },
+  "gradient_p_minus_y": [
+   -0.89,
+   0.19,
+   0.13,
+   0.15,
+   0.15,
+   0.21,
+   0.06
+  ]
+ },
+ "ep3": {
+  "L1_before": 2.21,
+  "g": [
+   -0.89,
+   0.19,
+   0.13,
+   0.15,
+   0.15,
+   0.21,
+   0.06
+  ]
+ },
+ "ep8": {
+  "snapshots": [
+   {
+    "step": 0,
+    "P_pos1": [
+     0.11,
+     0.19,
+     0.13,
+     0.15,
+     0.15,
+     0.21,
+     0.06
+    ],
+    "L1_display": 2.21
+   }
+  ]
+ }
+}

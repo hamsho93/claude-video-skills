@@ -1,0 +1,18 @@
+{
+ "ledger": "toy-ledger.json",
+ "episodes": [
+  {"n": 1, "script": "ep01-script.md", "id": "c1_\\d\\d"},
+  {"n": 2, "script": "ep02-script.md", "id": "c2_\\d\\d"}
+ ],
+ "identities": [
+  ["day-one bars", "ep1.P_pos1", "ep2.P_pos1", "ep8.snapshots.0.P_pos1"],
+  ["day-one loss", "ep1.L1", "ep2.L1_from_displayed_p", "ep3.L1_before", "ep8.snapshots.0.L1_display"],
+  ["p minus y", "ep2.gradient_p_minus_y", "ep3.g"]
+ ],
+ "stale": [["\\bknobs?\\b", "knob (the series says dials)"], ["\\bscores? to every word\\b", "score (Episode 1 now says probability)"]],
+ "callbacks": [
+  {"from": 1, "says": "It is a probability for every word it knows", "to": 2, "echo": "Last time we named that percent. It is the word's probability"},
+  {"from": 1, "says": "A loss function: one number that says how wrong an answer is. And a rule that turns the dials to make that number smaller", "to": 2, "echo": "a loss function, and a rule that turns the dials to make it smaller"},
+  {"from": 1, "says": "using it on the dials is called training", "to": 2, "echo": "gradient descent: turn the dials to make it smaller"}
+ ]
+}

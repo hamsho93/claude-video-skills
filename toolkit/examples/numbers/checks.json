@@ -1,0 +1,16 @@
+{
+ "script": "ep02-script.md",
+ "ledger": "toy-ledger.json",
+ "id": "c2_\\d\\d",
+ "max_spoken": 2,
+ "cards": {
+  "c2_01": {"screen": ["f2:ep2.p_correct"], "spoken": ["pct:ep2.p_correct"]},
+  "c2_04": {"screen": ["f2:ep2.p_correct", "f2:ep2.L1_from_displayed_p"], "spoken": ["f2:ep2.p_correct", "f2:ep2.L1_from_displayed_p"]},
+  "c2_05": {"screen": ["f2:ep1.even_guess_loss_ln_outputs"], "spoken": ["f2:ep1.even_guess_loss_ln_outputs"]}
+ },
+ "phrases": [
+  ["c2_01", "The model gave it {{pct:ep2.p_correct}} percent."],
+  ["c2_04", "minus ln of {{f2:ep2.p_correct}}. The loss is {{f2:ep2.L1_from_displayed_p}}."]
+ ],
+ "terms": [["probability", "c2_02"], ["loss", "c2_03"], ["perplexity", "c2_05"]]
+}
