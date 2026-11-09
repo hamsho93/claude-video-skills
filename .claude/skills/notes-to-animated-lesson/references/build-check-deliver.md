@@ -13,25 +13,27 @@ Commands, the engine's API and its gotchas are in the toolkit's `TOOLKIT.md`; th
 ## Build
 
 - One self-contained HTML page per episode from `build.py`. Start from `examples/demo/`; `examples/t02-scene.js` shows the guided-number helpers (per-cell `matrix()`, `wline()`, `flyIn()`/`flyC()`, `setVal()`, `stepTag()`, `fHl()`, `dot()`, trackers); `examples/ep06-scene.js` shows every drawing kit.
-- Write a long scene in parts (one file per page under `parts/`, each with its own variable prefix), concatenated into `scene.js`. Before building: `node --check`, and confirm every `a('name')` and `bt('id')` exists in the script.
+- Write a long scene in parts (one file per page under `parts/`, each with its own variable prefix) and join them with `parts.py`: it writes `scene.js`, checks every `a('name')` and `bt('id')` against the script, and runs `node --check` with the engine and kits, so a duplicate name or a clash with an engine name is reported with its part and line.
 - Extend the scene 3 to 4 s past the voice for the zoom-out over the spread.
 
 ## Check
 
 - **Contact sheets** (`shots.py`, one frame per line; `--full` for full-size and mid-motion frames of every new animation): labels on drawings, residue from earlier lines, off-page camera views, invisible objects, clipped text.
 - **Overlap** (`overlap.py`): every visible label at each line's end, measured from the page; it reports label-on-label overlaps and labels running off the frame. Fix every hit. It doesn't see labels on drawings: that stays a job for the contact sheets.
-- **Clutter** (`clutter.py`): windows with more than 2 movers; fix by staggering or grouping parts that move as one.
+- **Clutter** (`clutter.py`): windows with more than 2 movers; fix by staggering or grouping parts that move as one. It samples every 0.1 s, so re-run it after any re-voice: a shift of a fraction of a second can move a short overlap onto a sample.
+- **Empty pages** (`scan.py`): every 0.25 s on the built page, and again on the final MP4 (`--mp4`); every stretch of 0.75 s or more with an empty page is a page whose first mark comes after the camera lands (`look-and-motion.md`). Only the opening may stay. The other checks can't see this: they look at each line's end.
 - **Density:** per chapter, each number arrives after its picture and its prediction; only the calculations that carry the argument are worked in full.
 - **Numbers:** every number on screen matches the fact-check; run the worked examples in code at screen precision, rounding at each step as the screen does.
 - **Flow:** every callback points to an earlier episode or chapter, matching the spine table.
 - **Player:** play, a chapter chip, clock and voice agree, no page errors.
+- **Report only what ran.** In the delivery message and the build notes, a check is "passed" only if a tool ran it on this build; say which ones didn't run.
 - **Extended cuts:** frames around every join, the takeaway readable 2 s before each cut, chapters, about −16 LUFS, cues never overlapping.
 
 ## Render
 
-- `render.py EP k K` renders frame ranges in parallel. On 2 CPUs use 2 parts (about 4 frames/s each): a 15-minute episode takes about 50 minutes. Don't run TTS alongside. After a fix, re-render only the part whose frames changed.
+- `render.py EP k K` renders frame ranges in parallel, one part per spare core: on 2 CPUs use 2 parts (about 4 frames/s each; a 15-minute episode takes about 50 minutes); on 12, 4 parts render an 8-minute episode in about 3 minutes. Don't run TTS alongside. After a fix, re-render only the part whose frames changed.
 - Wait on background jobs with a notification or an until-loop on a file, never on a self-matching `pgrep`.
-- `mux.py`: voice through loudnorm (−16 LUFS), soft subtitles, chapters (the Intro merges into chapter 1), cut with `-t <video duration>`, never `-shortest`. Verify with ffprobe and ebur128, and pull two or three frames from the finished MP4.
+- `mux.py`: voice through loudnorm (−16 LUFS), soft subtitles, chapters (the Intro merges into chapter 1), cut with `-t <video duration>`, never `-shortest`. Verify with ffprobe and ebur128, run `scan.py EP --mp4`, and pull two or three frames from the finished MP4.
 - `cover.py`: 1280×720, a clean frame of the main picture on the left (`cover_crop`), the title on the right. Pick a moment with no label mid-write.
 - **Extended cut** (`ext_cut.py`): each deep dive is its own scene ("DEEP DIVE" tab), rendered to its own MP4, joined after the chapter it extends: cut the main episode just before the camera leaves that chapter (next chapter's first line − 0.95 s), add a 1.5 s hold, resume at the same point. Drop the dive's Intro, prefix its chapters "Deep dive: <topic> · ", merge any under 10 s. A dive that comes last carries the end card.
 - **File names:** each episode's outputs get their own slug (`margin-notes-NN-<title-slug>`, `-extended`, `-deep-dive-<topic>`), so renumbering never overwrites older files. Back up the previous version's script, scene and episode.json before a rebuild.

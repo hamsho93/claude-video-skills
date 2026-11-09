@@ -31,12 +31,14 @@ This file is the map. Read a reference file only when you reach its step; don't 
 ## The workflow (gates in bold)
 
 1. Gather the sources and fact-check every claim and number.
-2. Plan the series order, then the episode: one question, one spine picture, 2 to 4 concepts.
+2. Plan the series order and the audience (newcomers, or engineers who want the real terms), then the episode: one question, one spine picture, 2 to 4 concepts.
 3. Write the script as tables in the plan doc. **The person approves the script before anything is voiced.**
 4. Voice it (`tts.py`) and make the animatic (`animatic.py`): the voice over one card per line. **The person listens before the build.** Pacing and "doesn't stick" problems are cheap to fix here.
 5. Build the scene against the voice's timing.
-6. Check: contact sheets, clutter, overlap, every number, then one viewer pass.
+6. Check: contact sheets, clutter, overlap, empty pages, every number, then one viewer pass.
 7. Render, mux, cover, YouTube text; publish the player; update the plan doc's status block.
+
+When a revised episode changes words a later episode quotes, list those callbacks and propose the later episode's edits before touching it.
 
 When the person's notes on a built episode point at structure ("it doesn't stick", "concepts don't blend"), propose a rebuild of the script, not a patch.
 
@@ -44,6 +46,7 @@ When the person's notes on a built episode point at structure ("it doesn't stick
 
 These hold on every episode. Each is explained, with examples, in the reference for its step.
 
+- **Pitch to the audience.** For engineers, name the field's real term (logits, softmax, cross-entropy) and say why each step works; simplify by leaving things out and saying so, never by blurring what is shown. A friendly word may stand in for a real term once both are named, but never one that already means something else (weights are attention weights, so parameters are "dials").
 - **Understanding over coverage.** Pick the few key concepts; everything else goes to the description, the deep dive or the fact notes.
 - **One spine per episode.** One question and one picture that each chapter changes (one table told three ways). An idea that doesn't change the spine picture belongs elsewhere.
 - **Show the natural wrong guess first, then let it fail.** For each key concept, stage the obvious first try a smart newcomer would make, show where it breaks, then fix it. Clear explanation alone leaves viewers confident without learning.
@@ -52,7 +55,8 @@ These hold on every episode. Each is explained, with examples, in the reference 
 - **Label each part of a formula by its job,** in plain words, while the formula is on screen as the map.
 - **Picture, then name, then number. Real size, then the toy.**
 - **Guide the eye through the numbers, and slow down for them.** Work in full only the calculations that carry the argument; one working line at a time; at most two numbers spoken per line; number lines voiced slower (`slow=True`).
-- **The analogy and the math meet:** say the numbers in the analogy's words.
+- **The analogy and the math meet:** say the numbers in the analogy's words. Analogies are optional: an expert audience may want none.
+- **Honest examples.** When the example on screen is a chosen case (a seed, a run, a sentence), show how typical it is: the top word was right in 454 of 1,000 random starts; 16 of 20 other runs got every held-out case right.
 - **Label a thing by what made it** (x(word) until a matrix makes it q or k). Toy columns have no names or meanings.
 - **Say training or inference up front,** and which step; keep the step strip lit.
 - **One thing moving at a time; the screen forgets.** When the next idea arrives, the last one's labels leave.
@@ -63,6 +67,7 @@ These hold on every episode. Each is explained, with examples, in the reference 
 ## Done means
 
 - Every number matches the fact-check, and the worked examples run in code at screen precision.
-- Overlap and clutter checks are clean, and the contact sheets show no residue, clipped text or labels on drawings.
+- Overlap and clutter checks are clean, the contact sheets show no residue, clipped text or labels on drawings, and `scan.py` finds no empty page after the opening, on the page and in the final MP4.
+- Every check reported as passed was run by a tool in this session; a check that wasn't run is reported as not run.
 - The viewer pass passes: each chapter changes the spine picture; each number could be predicted before it appears; there's a wrong guess, a prediction pause and a dial; and you can name the one image a viewer will remember in a month.
 - Deliverables sent, player published (to the episode's existing artifact when artifacts are available), plan status updated.

@@ -29,6 +29,7 @@ These are the series' choices; a new series may make others, but writes them dow
 - **Animate the quantity, not just the label:** bars grow to the real value, frames cross out as they're missed; drive them with trackers.
 - **Magnify tiny effects** with a loupe; **zoom carefully** so the view stays inside the page.
 - **Labels never sit on drawings or on each other;** check free space before placing one (`overlap.py` catches label-on-label and off-page).
+- **A page is never blank while the voice talks.** The camera usually lands on a new page just as its first line starts, after a 1 s move, so the page's first mark (its title, a frame, the empty boxes) is written as the camera lands, not at a later word; the words then follow the voice. Within a page, don't clear the last picture seconds before the next one arrives: keep it until just before. `scan.py` measures this.
 - **Hold what matters:** keep a picture up while the voice still talks about it; fade it at the next idea's word, not the line boundary.
 - **Subtitles are a soft track, never burned in.**
 

@@ -16,10 +16,12 @@ cp -r ~/mn-toolkit/examples/demo $EP            # episode.json, script.py, scene
 python3 $TK/fake_timing.py $EP                   # estimated timing: build the scene before the voice
 nohup python3 $TK/tts.py $EP > $EP/tts.log 2>&1 &   # voice + timing (cached per line)
 python3 $TK/animatic.py $EP                      # voice over one card per line: send before the build
+python3 $TK/parts.py $EP                         # scene in parts: parts/*.js -> scene.js, anchors and names checked
 python3 $TK/build.py $EP                         # out/page.html for checks and renders
 python3 $TK/shots.py $EP                         # contact sheets (or: shots.py $EP 12.5 --full)
 python3 $TK/overlap.py $EP                       # labels overlapping or off the frame, per line
 python3 $TK/clutter.py $EP                       # windows with more than 2 things moving
+python3 $TK/scan.py $EP                          # empty pages while the voice talks (after the mux: --mp4)
 python3 $TK/render.py $EP 0 2 & python3 $TK/render.py $EP 1 2 & wait
 python3 $TK/mux.py $EP 2 /home/claude            # <slug>.mp4: -16 LUFS, soft subs, chapters
 python3 $TK/cover.py $EP <t> "Title" ["line 2"]  # 1280x720 cover (episode.json "cover_crop")
@@ -41,7 +43,7 @@ python3 $TK/ext_cut.py spec.json                 # extended cut (see examples/ex
 - `hlBar`, `tex`, `hand`, `mono`, `growBar`, `codeCard` return mobs or APIs; don't wrap them in `new Mob`.
 - `grp([...], 'name')` counts parts as one mover in the clutter probe.
 - Build drawings around a local origin and position the mob, so pulses and scales stay in place.
-- One scene is one function: prefix per-chapter names (tR4, tR5) to avoid "Identifier has already been declared".
+- One scene is one function: prefix per-chapter names (tR4, tR5) to avoid "Identifier has already been declared". Top-level names in the scene share one script with the engine and kits (a scene `const f1` or `E` clashes); `parts.py` reports either with its file and line.
 - Use arrays, not object key order (JS puts integer-like keys such as '10' before '01').
 - Clip paths and highlight bars use page-local coordinates via the page function `p(m, x, y)`; highlights go behind what they light (`S.behind`), above the page's white fills.
 - When a driver moves something a mob also positions, put the driver's transform on an inner group, so seeking backwards can't leave a stale transform.
@@ -54,6 +56,9 @@ python3 $TK/ext_cut.py spec.json                 # extended cut (see examples/ex
 - SVG collapses spaces: use non-breaking spaces.
 - The Write tool turns `\u` escapes into real characters.
 - Never `pkill -f` or wait on `pgrep -f` with a pattern in your own command line; use `pgrep -f "[t]ts.py"`.
+- In zsh a glob with no match is an error: `rm -f out/part*.mp4 && render...` stops the chain when there are no parts. Don't glob in rm (render overwrites its parts anyway).
+- Two scans or shot runs at once must not share a temp file (one read the other's half-written PNG); `scan.py` keeps frames in memory.
+- After a re-voice every line after the change moves: re-run clutter and scan, regenerate anything that prints chapter times (YouTube text), and re-render every part after the first changed line.
 
 ## Manifest
 
@@ -69,6 +74,8 @@ python3 $TK/ext_cut.py spec.json                 # extended cut (see examples/ex
 | py/shots.py | contact sheets and full-size frames |
 | py/overlap.py | label overlap and off-frame check at every line's end |
 | py/clutter.py | movers-at-once probe |
+| py/scan.py | empty-page scan of the built page or the final MP4 |
+| py/parts.py | joins a scene written in parts and checks anchors, line ids and names |
 | py/render.py | frames k of K into out/part{k}.mp4 |
 | py/mux.py | parts + voice + subtitles + chapters into the MP4 |
 | py/cover.py | YouTube cover |

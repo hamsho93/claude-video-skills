@@ -10,6 +10,7 @@
 ## The script, as tables
 
 - One table per chapter: line #, narration, on screen. Head each chapter with its key concept, its picture or analogy, its yardstick, its natural wrong guess, and which numbers are worked in full versus named.
+- Only script rows start with a line id (`| c2_05 |`); other tables in the doc (build notes, change logs) start differently (`| Card c2_05 |`), so a checker that reads the script by id doesn't pick them up.
 - Mark with `{anchor}` the word each visual lands on; give a spoken form when it differs from the caption. Mark number lines **slow**, question lines **think**, and give each line a few words of "on screen" (it becomes the beat's `see` and shows on the animatic).
 - Per version (v1, v2, ...), add a **what changed and why** table (change, the note that caused it, the lines), a **checked against your notes** table (page, what it says, where the script carries it, where it differs on purpose), and a **season rules in this episode** table.
 - **The person approves the script before anything is voiced.** For a new style or a big rewrite, build one chapter as a pilot first (a two-page pilot settled the T02 guided-number style in one round).
@@ -39,3 +40,4 @@ Add build notes to the tab: where the screen differs from the approved tables, a
 6. Guide the eye through the numbers: one row of boxes changing in place, one example aloud then "your turn", the formula on top as the map with each part labelled by its job, zeros greyed, one working line at a time, at most two numbers spoken per line, number lines slowed.
 7. No meanings for toy columns; the toy stands for a model partway through training; read meaning against rows the viewer knows.
 8. One spine per episode; the natural wrong guess before the fix; predict before you compute, with a real pause; one dial.
+9. The audience and its words: who it's for, the real terms named, the friendly words chosen (and never colliding), the display precision, the length target.
