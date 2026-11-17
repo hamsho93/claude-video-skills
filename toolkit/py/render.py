@@ -7,7 +7,7 @@ so nothing needs deleting first. After a fix, re-render only the parts whose fra
 import os, subprocess, sys, time
 from playwright.sync_api import sync_playwright
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import epdir, out
+from common import epdir, out, SHOT_MS
 from page import open_page
 
 FPS = 30
@@ -27,7 +27,7 @@ def main():
         t0 = time.time()
         for i in range(a, z):
             p.evaluate(f'window.__frame({i / FPS:.4f})')
-            ff.stdin.write(p.screenshot(type='png'))
+            ff.stdin.write(p.screenshot(type='png', timeout=SHOT_MS))
             if (i - a) % 300 == 0:
                 print(k, i - a, z - a, round(time.time() - t0), flush=True)
         ff.stdin.close(); ff.wait(); b.close()

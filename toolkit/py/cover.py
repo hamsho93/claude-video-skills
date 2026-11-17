@@ -3,7 +3,10 @@ the series tag and the episode tab.
 python3 cover.py EPDIR T "Title line" ["second line"]  -> out/<slug>-cover.png
 T = a time when the episode's main picture is on screen and no labels are mid-write.
 Optional in episode.json: "cover_crop": [x, y, w, h] in page pixels (default the middle 1280x1080 of the frame).
+The picture is drawn 640 px tall and as wide as the crop's shape; the title gets what is left of the 1280 px width. A crop wider
+than MAX_ASPECT : 1 leaves the title too little room (its last word is cut), so the tool stops and says the widest crop that fits.
 """
+MAX_ASPECT = 1.45   # measured: 1.41 and 1.33 fit a two-line title; 1.50 and 1.96 cut it
 import base64, html, os, sys
 from playwright.sync_api import sync_playwright
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -20,6 +23,9 @@ def main():
         b, p = open_page(pw, out(d, 'page.html'))
         p.evaluate(f'window.__frame({t})')
         x, y, w, h = c.get('cover_crop', [320, 0, 1280, 1080])
+        if w / h > MAX_ASPECT:
+            b.close()
+            raise SystemExit(f'cover_crop {w}x{h} is {w / h:.2f}:1; the title needs the crop at most {MAX_ASPECT}:1 (for this height, at most {int(h * MAX_ASPECT)} px wide, or at least {int(w / MAX_ASPECT) + 1} px tall)')
         png = p.screenshot(clip={'x': x, 'y': y, 'width': w, 'height': h})
         b.close()
         img = 'data:image/png;base64,' + base64.b64encode(png).decode()

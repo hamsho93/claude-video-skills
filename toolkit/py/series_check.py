@@ -12,6 +12,12 @@ For every episode whose dir has a rendered out/*.srt: the subtitles are the scri
 (when present) lists every chapter from out/timing.json.
 A callback is a later episode quoting an earlier one: both lines must exist. Rewriting the earlier episode breaks it here
 first, before the later episode is re-voiced.
+
+Prerequisites (optional, per episode): "order" (the order viewers watch in; default the list order), "introduces" and
+"uses" (concept names). Every concept an episode uses must be introduced by an episode that comes before it, or by itself;
+every concept an episode introduces must be said in its narration (a concept may be ["name", "phrase it is said as"]).
+An episode not scripted yet can stand in with "planned": true and no script, so the order can be checked before it exists.
+This is the check that would have caught a season grading and backpropagating through parts it had not yet run forward.
 """
 import glob, json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -33,6 +39,8 @@ def main():
         if any(v != vals[0] for v in vals): bad.append(f'identity "{name}" differs: ' + '; '.join(f'{p} = {v}' for p, v in zip(paths, vals)))
     EP = {}
     for e in C['episodes']:
+        if e.get('planned'):
+            continue
         K = cards(os.path.join(base, e['script']), e['id'])
         EP[e['n']] = (e, K, ' '.join(v[1] for v in K.values()), ' '.join(v[0] for v in K.values()))
     for n, (e, K, narr, screen) in EP.items():
@@ -40,6 +48,25 @@ def main():
             for where, t in (('narration', narr), ('on screen', screen)):
                 for m in re.finditer(rx, t, re.I):
                     bad.append(f'Episode {n} {where}: stale term {what}: ...{t[max(0, m.start() - 30):m.end() + 30]}...')
+    # prerequisites: what each episode uses was introduced earlier (or in the same episode)
+    nm = lambda c: c[0] if isinstance(c, list) else c
+    said = lambda c: c[1] if isinstance(c, list) else c
+    eps = sorted(enumerate(C['episodes']), key=lambda ie: (ie[1].get('order', ie[0] + 1), ie[0]))
+    known, pre_n = {}, 0
+    for _, e in eps:
+        if 'introduces' not in e and 'uses' not in e:
+            continue
+        pre_n += 1
+        mine = {nm(c) for c in e.get('introduces', [])}
+        for u in e.get('uses', []):
+            if u not in known and u not in mine:
+                bad.append(f'Episode {e["n"]} uses "{u}", which no earlier episode introduces')
+        if not e.get('planned') and e['n'] in EP:
+            narr = EP[e['n']][2].lower()
+            for c in e.get('introduces', []):
+                if said(c).lower() not in narr: bad.append(f'Episode {e["n"]} introduces "{nm(c)}" but never says "{said(c)}"')
+        for c in mine: known.setdefault(c, e['n'])
+    if pre_n: notes.append(f'prerequisites: {pre_n} episodes in viewing order, {len(known)} concepts')
     for cb in C.get('callbacks', []):
         a, b = EP[cb['from']], EP[cb['to']]
         if cb['says'] not in a[2]: bad.append(f'callback: Episode {cb["from"]} no longer says {cb["says"]!r}')

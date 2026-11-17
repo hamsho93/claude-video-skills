@@ -5,6 +5,7 @@ Everything needed to build a Margin Notes episode, deep dive or extended cut. Th
 ## Set up
 
 - `cp -r toolkit ~/mn-toolkit && bash ~/mn-toolkit/setup.sh`
+- The repo's `toolkit/` is the source of truth. A working copy drifts as tools improve: `python3 <repo>/toolkit/py/drift.py ~/mn-toolkit` at the start of a session lists what changed (copy `py/`, `web/` and `TOOLKIT.md` over; `.deps` and `models` stay).
 - Needs Python 3, Node (npm) and ffmpeg; `setup.sh` stops with a clear message if one is missing. It installs local MathJax 3.2.2 and fonts (renders never touch the network), kokoro-onnx, Pillow and Playwright, and installs Playwright's Chromium only if no working browser is found (Claude cloud sessions already have one). Kokoro's model files (~340 MB) download on the first `tts.py` run.
 
 ## Make an episode
@@ -16,11 +17,13 @@ cp -r ~/mn-toolkit/examples/demo $EP            # episode.json, script.py, scene
 python3 $TK/fake_timing.py $EP                   # estimated timing: build the scene before the voice
 nohup python3 $TK/tts.py $EP > $EP/tts.log 2>&1 &   # voice + timing (cached per line)
 python3 $TK/animatic.py $EP                      # voice over one card per line: send before the build
-python3 $TK/parts.py $EP                         # scene in parts: parts/*.js -> scene.js, anchors and names checked
+python3 $TK/parts.py $EP                         # scene in parts: parts/*.js -> scene.js; anchors, names, hidden names and math typed as text checked
 python3 $TK/build.py $EP                         # out/page.html for checks and renders
 python3 $TK/shots.py $EP                         # contact sheets (or: shots.py $EP 12.5 --full)
 python3 $TK/overlap.py $EP                       # labels overlapping or off the frame, per line
-python3 $TK/clutter.py $EP                       # windows with more than 2 things moving
+python3 $TK/clutter.py $EP                       # windows with more than 2 things moving (--why: name them)
+python3 $TK/late.py $EP                          # labels still being written when their line ends
+python3 $TK/gaps.py $EP                          # pages showing only their frame (map, strip) while the voice talks
 python3 $TK/scan.py $EP                          # empty pages while the voice talks (after the mux: --mp4)
 python3 $TK/render.py $EP 0 2 & python3 $TK/render.py $EP 1 2 & wait
 python3 $TK/mux.py $EP 2 /home/claude            # <slug>.mp4: -16 LUFS, soft subs, chapters
@@ -35,9 +38,9 @@ The season's toy writes one JSON ledger; nothing on screen, in the voice or in t
 
 ```
 python3 $TK/ledger.py js $EP                # episode.json "ledger" block -> ledger_js.js (const LED), listed in kits_extra
-python3 $TK/script_check.py checks.json     # before voicing: each card carries exactly its ledger numbers; phrases; terms first said where defined
+python3 $TK/script_check.py checks.json     # before voicing: each card carries exactly its ledger numbers; phrases; terms first said where defined; the fresh-eyes review has no open items
 python3 $TK/ledger.py audit $EP             # after build: every number drawn on the page is a picked ledger value
-python3 $TK/series_check.py series.json     # identities across episodes, stale terms, callbacks, subtitles = narration, YouTube chapters
+python3 $TK/series_check.py series.json     # identities across episodes, stale terms, callbacks, subtitles = narration, YouTube chapters, prerequisites in viewing order
 python3 $TK/ledger.py fill $EP youtube.tmpl.md   # YouTube text: {{f2:path}} and {{chapters}} filled in
 ```
 
@@ -71,6 +74,7 @@ Values stored to more decimals than the screen shows (2.452 shown as 2.45) pass 
 - The Write tool turns `\u` escapes into real characters.
 - Never `pkill -f` or wait on `pgrep -f` with a pattern in your own command line; use `pgrep -f "[t]ts.py"`.
 - In zsh a glob with no match is an error: `rm -f out/part*.mp4 && render...` stops the chain when there are no parts. Don't glob in rm (render overwrites its parts anyway).
+- Pages with many typeset formulas can take one screenshot far past Playwright's 30 s default (one frame in a 2,576-frame scan did); `scan.py`, `shots.py` and `render.py` wait up to `SHOT_MS` (120 s, in `common.py`).
 - Two scans or shot runs at once must not share a temp file (one read the other's half-written PNG); `scan.py` keeps frames in memory.
 - After a re-voice every line after the change moves: re-run clutter and scan, regenerate anything that prints chapter times (YouTube text), and re-render every part after the first changed line.
 
@@ -89,7 +93,11 @@ Values stored to more decimals than the screen shows (2.452 shown as 2.45) pass 
 | py/overlap.py | label overlap and off-frame check at every line's end |
 | py/clutter.py | movers-at-once probe |
 | py/scan.py | empty-page scan of the built page or the final MP4 |
-| py/parts.py | joins a scene written in parts and checks anchors, line ids and names |
+| py/late.py | labels still being written when their line ends |
+| py/gaps.py | stretches where a page shows only its frame (map, step strip) |
+| py/drift.py | lists how a working copy of the toolkit differs from the repo's |
+| py/parts.py | joins a scene written in parts and checks anchors, line ids, names, names hidden by helpers, and math typed as text |
+| examples/worksheet/ | worksheet kit for math worked by hand: matrices in a column at the left, source rows lit, a shape strip, typeset math |
 | py/ledger.py | the season ledger: paths and forms; `js` (scene constants), `audit` (numbers drawn on the page), `fill` (YouTube text) |
 | py/script_check.py | script table against the ledger, card by card, before voicing |
 | py/series_check.py | what travels across episodes: identities, stale terms, callbacks, subtitles, YouTube chapters |
