@@ -8,7 +8,7 @@ import json, os, sys
 from PIL import Image, ImageDraw
 from playwright.sync_api import sync_playwright
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import epdir, out
+from common import epdir, out, SHOT_MS
 from page import open_page
 
 
@@ -28,13 +28,13 @@ def main():
         if full:
             for t, _ in marks:
                 p.evaluate(f'window.__frame({t})')
-                p.screenshot(path=out(d, 'shots', f'full_{t:g}.png'))
+                p.screenshot(path=out(d, 'shots', f'full_{t:g}.png'), timeout=SHOT_MS)
                 print(out(d, 'shots', f'full_{t:g}.png'))
         else:
             tiles = []
             for t, lab in marks:
                 p.evaluate(f'window.__frame({t})')
-                p.screenshot(path=out(d, 'shots', '_t.png'))
+                p.screenshot(path=out(d, 'shots', '_t.png'), timeout=SHOT_MS)
                 im = Image.open(out(d, 'shots', '_t.png')).convert('RGB').resize((640, 360), Image.LANCZOS)
                 dr = ImageDraw.Draw(im)
                 dr.rectangle([0, 0, 200, 22], fill=(0, 0, 0))

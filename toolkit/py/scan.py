@@ -11,7 +11,7 @@ import io, json, os, subprocess, sys
 import numpy as np
 from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import epdir, config, out
+from common import epdir, config, out, SHOT_MS
 
 MIN, EMPTY = 0.75, 0.0004                 # shortest stretch reported (s); ink fraction below which a page is empty
 W, H = 1920, 1080
@@ -32,7 +32,7 @@ def page_rows(d, STEP=0.25):
         total, t = p.evaluate('window.__total'), 0.0
         while t < total - 0.5:
             p.evaluate(f'window.__frame({t})')
-            rows.append((t, ink(np.asarray(Image.open(io.BytesIO(p.screenshot())).convert('RGB')))))
+            rows.append((t, ink(np.asarray(Image.open(io.BytesIO(p.screenshot(timeout=SHOT_MS))).convert('RGB')))))
             t = round(t + STEP, 4)
         b.close()
     return rows

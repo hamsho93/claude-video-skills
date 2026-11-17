@@ -16,6 +16,25 @@
 - **The person approves the script before anything is voiced.** For a new style or a big rewrite, build one chapter as a pilot first (a two-page pilot settled the T02 guided-number style in one round).
 - A rebuild replaces the tab's script sections and keeps earlier build notes under an "Earlier builds" heading.
 
+## Fresh-eyes review (before the person sees the script)
+
+Every rejected draft of the staff-level season failed on explanation, not numbers: a matrix shown with no reason for its size, values that appeared from nowhere, a design choice stated but not motivated, a claim true for half the picture. The number checks can't see any of that. So before sending a script, have a fresh reviewer read it cold.
+
+- **Who:** a subagent given only the script table and a one-paragraph summary of the toy (not the conversation, not your reasoning), asked to read as the audience (a staff engineer seeing this for the first time).
+- **What it lists, card by card:**
+  - every number or object whose source isn't on screen ("where did this come from?");
+  - every new object missing one of its four explanations (what, shape and why, purpose, what breaks without it: `teaching.md`);
+  - every claim that's true but incomplete, or that a careful reader could take the wrong way;
+  - names that could be confused;
+  - math that will be hard to read as drawn;
+  - facts about real models (when the season keeps them out).
+- **Where:** `plan/<episode>-review.md`, one `- [ ]` item per finding. Resolve each: fix the script, or write in the item why it stays. Then mark it `- [x]`. `script_check.py` fails while any item is open (`"review"` in its checks file).
+- Only then send the script, with a line saying how many review items there were and what changed.
+
+## Storyboard (episodes that work math by hand)
+
+Before voicing, add a storyboard section to the script: one row per page that computes something, listing what stands in the worksheet column, what is computed, from which rows and columns, and which formula is typeset. The person can judge whether the math is easy to follow before any voice or scene exists; it costs a few minutes, and a rejected worksheet layout after a build costs a full rebuild and render. For a new layout, build two or three key pages against `fake_timing.py` and send stills with the script.
+
 ## The animatic checkpoint
 
 After approval, voice the script (`tts.py`) and run `animatic.py`: the voice over one card per line (chapter, line, narration, on-screen note), about 1.5 minutes to make for a 15-minute episode. Send it and ask the person to listen before the build. Listen for: a chapter that drags, numbers that come too fast, a question with no pause, a line that's hard to follow by ear. Fix the script and re-voice (only changed lines are re-synthesized); then build.

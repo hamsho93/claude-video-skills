@@ -11,6 +11,7 @@ import importlib.util, json, os, re, sys
 TK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # toolkit root
 WEB = os.path.join(TK, 'web')
 DEPS = os.path.join(TK, '.deps')                                      # npm deps (setup.sh)
+SHOT_MS = 120000   # screenshot timeout: pages with many typeset formulas can take far longer than Playwright's 30 s default on one frame
 MODELS = os.path.join(TK, 'models')                                   # kokoro model files (tts.py downloads)
 
 ANCHOR = re.compile(r'\{(\w+)\}')

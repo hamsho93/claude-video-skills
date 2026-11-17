@@ -4,7 +4,8 @@
 
 Watched in order, each episode should feel like the obvious next question. Plan the whole series before scripting any episode; reordering after a build means re-voicing hand-offs.
 
-- **Map concepts and prerequisites.** Order episodes so every idea's prerequisites come earlier. An idea used before it's taught, or taught and only used three episodes later past an unrelated one, is a flow bug.
+- **Map concepts and prerequisites.** Order episodes so every idea's prerequisites come earlier. An idea used before it's taught, or taught and only used three episodes later past an unrelated one, is a flow bug. Write each episode's `introduces` and `uses` into `series.json` (episodes not yet scripted as `planned`) and let `series_check.py` enforce the order before a script is written.
+- **A process series follows the process.** When the subject is a pipeline or a loop (training: initialize, forward, loss, backward, update, repeat), episodes follow it: nothing is graded or differentiated before it has been computed forward on screen. A season that taught loss and backpropagation before running the model forward had to be reordered and two episodes rewritten.
 - **One rung per episode, bottom to top.** When the system has layers (fast to slow, raw signal to decision), climb one per episode under one visible anchor (a ladder of clocks; a station map).
 - **Simplest case first, then the harder form.** Never the other way round.
 - **Teach where first needed; callbacks only point backward.** A trailer (episode 00) is cut last from finished episodes, and nothing depends on it.

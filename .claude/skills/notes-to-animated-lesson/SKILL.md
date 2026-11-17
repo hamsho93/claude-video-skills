@@ -22,7 +22,7 @@ This file is the map. Read a reference file only when you reach its step; don't 
 
 ## Start of every session
 
-- **Toolkit:** this repo's `toolkit/` folder: copy it to a working folder and run `setup.sh`, which checks for Python 3, Node and ffmpeg and installs the rest. Never rebuild the engine from scratch.
+- **Toolkit:** this repo's `toolkit/` folder: copy it to a working folder and run `setup.sh`, which checks for Python 3, Node and ffmpeg and installs the rest. Never rebuild the engine from scratch. The repo copy is the source of truth: improve tools there, and run `py/drift.py <working copy>` at the start of a session so an old working copy doesn't run stale tools.
 - **Plan doc first** (the series plan, in Claude Docs; without Claude Docs, a `plan/` folder of Markdown files in the person's own project): its status block says what's built, open and next; it holds the approved scripts; its season **review rules** bind every episode of the season. No plan yet: create one (see `script-and-review.md`).
 - **The workspace can be wiped between sessions.** Anything not in an artifact, the plan doc, the repo or a delivered file is lost. Send deliverables as soon as they're checked.
 - **One toy model per season, in one file** (e.g. `toy.py`), writing one ledger; every number on screen, in the voice and in the YouTube text comes from it, and the toolkit's number tools check that (`TOOLKIT.md`, "Numbers"). Before changing toy values, check what later episodes depend on them; fix readability by how the toy is explained first.
@@ -32,10 +32,10 @@ This file is the map. Read a reference file only when you reach its step; don't 
 
 1. Gather the sources and fact-check every claim and number.
 2. Plan the series order and the audience (newcomers, or engineers who want the real terms), then the episode: one question, one spine picture, 2 to 4 concepts.
-3. Write the script as tables in the plan doc. **The person approves the script before anything is voiced.**
+3. Write the script as tables in the plan doc; for math worked by hand, add the worksheet storyboard. Run the fresh-eyes review and resolve every item (`script-and-review.md`). **The person approves the script before anything is voiced.**
 4. Voice it (`tts.py`) and make the animatic (`animatic.py`): the voice over one card per line. **The person listens before the build.** Pacing and "doesn't stick" problems are cheap to fix here.
 5. Build the scene against the voice's timing.
-6. Check: contact sheets, clutter, overlap, empty pages, every number, then one viewer pass.
+6. Check: contact sheets, clutter, overlap, late labels, empty and frame-only pages, every number, then one viewer pass.
 7. Render, mux, cover, YouTube text; publish the player; update the plan doc's status block.
 
 When a revised episode changes words a later episode quotes, list those callbacks and propose the later episode's edits before touching it.
@@ -52,7 +52,9 @@ These hold on every episode. Each is explained, with examples, in the reference 
 - **Show the natural wrong guess first, then let it fail.** For each key concept, stage the obvious first try a smart newcomer would make, show where it breaks, then fix it. Clear explanation alone leaves viewers confident without learning.
 - **Make the viewer predict, with real silence.** Ask on screen, leave at least 2.5 s (`think=True`), then answer. After one example worked aloud, give the viewer the next one as "your turn" before filling it in.
 - **Turn a dial.** Once per episode, at the key concept, change one input and let every number after it update on screen.
-- **Label each part of a formula by its job,** in plain words, while the formula is on screen as the map.
+- **Explain every new object four ways:** what it is, its shape and why that shape, what it's for, what breaks without it. Claims are true and complete: a line true of half the picture misleads.
+- **Label each part of a formula by its job,** in plain words, while the formula is on screen as the map. Typeset every formula (real subscripts, stacked fractions); never type math as text.
+- **Every number shows its source on the same page.** For math worked by hand, a worksheet column keeps the matrices so far in view and lights the rows each number comes from.
 - **Picture, then name, then number. Real size, then the toy.**
 - **Guide the eye through the numbers, and slow down for them.** Work in full only the calculations that carry the argument; one working line at a time; at most two numbers spoken per line; number lines voiced slower (`slow=True`).
 - **The analogy and the math meet:** say the numbers in the analogy's words. Analogies are optional: an expert audience may want none.
@@ -67,7 +69,8 @@ These hold on every episode. Each is explained, with examples, in the reference 
 ## Done means
 
 - Every number matches the fact-check, and the worked examples run in code at screen precision.
-- Overlap and clutter checks are clean, the contact sheets show no residue, clipped text or labels on drawings, and `scan.py` finds no empty page after the opening, on the page and in the final MP4.
+- Overlap, clutter and `late.py` are clean, the contact sheets show no residue, clipped text or labels on drawings, `gaps.py` finds no frame-only page, and `scan.py` finds no empty page after the opening, on the page and in the final MP4.
+- The fresh-eyes review has no open items, and `series_check.py` passes with every episode's prerequisites.
 - Every check reported as passed was run by a tool in this session; a check that wasn't run is reported as not run.
 - The viewer pass passes: each chapter changes the spine picture; each number could be predicted before it appears; there's a wrong guess, a prediction pause and a dial; and you can name the one image a viewer will remember in a month.
 - Deliverables sent, player published (to the episode's existing artifact when artifacts are available), plan status updated.

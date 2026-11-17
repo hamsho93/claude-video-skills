@@ -8,7 +8,9 @@ must not start with an id). checks.json:
    "small_ints": 10,                     whole numbers up to this (no decimal point) are words, not data
    "cards": {"c2_17": {"screen": ["f2:ep2.p_correct", "f2:ep2.L1"], "spoken": ["f2:ep2.p_correct", "f2:ep2.L1"]}},
    "phrases": [["c2_17", "minus ln of {{f2:ep2.p_correct}}"]],     the narration must contain this (ledger values filled in)
-   "terms": [["cross-entropy", "c2_14"]]}                          first said in this card, and not before
+   "terms": [["cross-entropy", "c2_14"]],                          first said in this card, and not before
+   "review": "ep02-review.md"}                                     the fresh-eyes review (script-and-review.md): it must exist
+                                                                   and have no open "- [ ]" items left
 Each card must carry exactly the numbers its entry lists (a card with no entry: none), on screen and in the narration,
 compared at two decimals; a percent counts as its whole number (11% = 11). Logic a table can't express (a claim that needs
 a comparison) belongs in the season's own checker, which can import ledger.get / ledger.fill.
@@ -74,6 +76,12 @@ def main():
     for term, cid in C.get('terms', []):
         first = next((k for k in order if re.search(r'\b' + re.escape(term) + r'\b', K[k][1], re.I)), None)
         if first != cid: bad.append(f'"{term}" should first be said in {cid}, but is first said in {first}')
+    if C.get('review'):
+        rp = os.path.join(base, C['review'])
+        if not os.path.exists(rp): bad.append(f'no fresh-eyes review yet: {C["review"]} (see script-and-review.md)')
+        else:
+            opn = [l.strip() for l in open(rp, encoding='utf-8') if l.lstrip().startswith('- [ ]')]
+            if opn: bad.append(f'{len(opn)} review items still open in {C["review"]}, first: {opn[0][6:80]!r}')
     ids = [int(re.sub(r'\D', '', k)[-2:]) for k in order]
     if ids != list(range(ids[0], ids[0] + len(ids))): bad.append('card ids are not sequential')
     words = sum(len(v[1].split()) for v in K.values())

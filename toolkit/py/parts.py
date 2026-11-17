@@ -3,6 +3,11 @@ python3 parts.py EPDIR
 - Every literal a('name') and bt('id') must exist in script.py (a typo otherwise fails silently at render time).
 - The scene is checked with node inside the same single script build.py makes (engine, timing, kits, scene, player), so a name
   declared twice, or a top-level name that clashes with the engine or a kit, is reported with the part file and line it came from.
+- A name declared above build() and declared again inside it is reported: the inner one silently hides the outer, so the
+  scene reads the wrong value (a data matrix `O` hidden by the fade-out helper `O` drew "undefined").
+- Math typed as plain text is reported: an underscore subscript (W_q, s_ij), a one-line fraction over a root ("/ √2"), or a
+  typed ᵀ in a label() / monoL() / plainText() / hand() string. Typeset it with tex() (MathJax: real subscripts, stacked
+  fractions); keep plain digits as text so the number audit can read them. Add /* text-ok */ to a line that means it.
 """
 import glob, json, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -29,6 +34,43 @@ def main():
                 if n not in anchors: bad.append(f'{os.path.basename(f)}:{i}: a({n!r}) is not an anchor in {c["script"]}')
             for n in re.findall(r"\bbt\(\s*'(\w+)'\s*\)", ln):
                 if n not in ids: bad.append(f'{os.path.basename(f)}:{i}: bt({n!r}) is not a line id in {c["script"]}')
+
+    # names declared above build() and again inside it: the inner one hides the outer
+    def declared(text):
+        names = set()
+        for m in re.finditer(r'\b(?:const|let|var)\s+\{([^}]*)\}\s*=', text):
+            for part in m.group(1).split(','):
+                part = part.strip()
+                if part: names.add(part.split(':')[-1].strip().split('=')[0].strip())
+        for ln in text.split('\n'):
+            st = ln.strip()
+            if not re.match(r'(?:const|let|var)\s', st): continue
+            body = re.sub(r'^(?:const|let|var)\s+', '', st)
+            depth, cur, parts_ = 0, '', []
+            for ch in body:
+                if ch in '([{': depth += 1
+                elif ch in ')]}': depth -= 1
+                if ch == ',' and depth == 0: parts_.append(cur); cur = ''
+                else: cur += ch
+            parts_.append(cur)
+            for q in parts_:
+                m = re.match(r'\s*([A-Za-z_$][\w$]*)\s*=(?!=)', q)
+                if m: names.add(m.group(1))
+        return names
+    k0 = scene.find('function build(')
+    if k0 > 0:
+        outer, inner = declared(scene[:k0]), declared(scene[k0:])
+        for n in sorted(outer & inner):
+            bad.append(f'{n!r} is declared above build() and again inside it: the inner one hides the outer (rename one)')
+    # math typed as plain text
+    TXT = re.compile(r"\b(?:label|monoL|plainText|hand)\(\s*[\w.]+\s*,\s*(['\"])((?:(?!\1).)*)\1")
+    MATH = re.compile(r'[A-Za-z][_][A-Za-z0-9{]|/\s*√|ᵀ')
+    for f, s_ in src:
+        for i, ln in enumerate(s_.split('\n'), 1):
+            if 'text-ok' in ln: continue
+            for m in TXT.finditer(ln):
+                if MATH.search(m.group(2)):
+                    bad.append(f'{os.path.basename(f)}:{i}: math typed as text in {m.group(2)[:50]!r}: typeset it with tex()')
 
     # the same order as build.py, so top-level clashes with the engine and kits show up
     seg = [('engine.js', open(os.path.join(WEB, 'engine.js'), encoding='utf-8').read())]

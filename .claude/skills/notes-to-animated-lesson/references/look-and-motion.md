@@ -6,6 +6,7 @@ These are the series' choices; a new series may make others, but writes them dow
 
 - **Paper:** cream #F6F6EA with a graph grid (40 px minor #D9E3E6, 200 px major). Pages are 1920×1080, laid out as a spread on a desk (gap 200 px); the camera moves between pages, and the video ends by zooming out over the spread. Fill every slot (the last can hold the end card or further reading). A 3 × 2 spread fits a nine-minute episode; 4 × 3 (fifteen minutes) was too much.
 - **Every page:** a small olive series line ("Margin Notes · NN · title"), the page title in dark green with a hand-drawn underline, a fixed tab ("EPISODE NN" or "DEEP DIVE"), and the step strip (initialize, forward, loss, backward, update, repeat) top right with the current step lit: green for the forward pass, orange for training-only steps.
+- **Worked math gets a worksheet:** on pages that compute, the matrices so far stand in a column at the left and the source rows light as each number is written (`teaching.md`, "Show where every number comes from"; `toolkit/examples/worksheet/`). Pages that compute nothing (an analogy, a sketch) leave it off.
 - **One big central picture per chapter:** the middle of the page at real size; the yardstick along the bottom; the rule to one side. Leave the rest empty.
 
 ## Inks (one meaning each, written down before building)
@@ -14,7 +15,7 @@ These are the series' choices; a new series may make others, but writes them dow
 - Assign magenta #E0218A, blue #4F63E6, orange #F2A33A, olive #7A8F1C (teal #0F8B8D when needed) to the video's recurring things and keep them across an arc. Transformers: magenta = queries and lookers, blue = keys and targets, olive = values, teal = blends, orange = failures and training nudges. Arc 3: blue = the teacher, magenta = the untrained small model, teal = the trained student, green = the grader.
 - A thing drawn in a role's colour must really be that thing (a raw row standing in for a query stays plain ink). Hatched boxes mark learned weights. Failures use orange, never red.
 - **Highlighters:** cyan #8EE6EE names, orange #F9C98A key numbers, lime #8EF08E the key word. Red is never used.
-- **Pen:** wobbly hand-drawn strokes with seeded randomness; strokes draw on; handwriting writes left to right through a clip wipe; math is MathJax SVG with `\textcolor`.
+- **Pen:** wobbly hand-drawn strokes with seeded randomness; strokes draw on; handwriting writes left to right through a clip wipe; math is MathJax SVG with `\textcolor`. **Never type math as text:** no underscore subscripts (W_q, s_ij), no one-line "a / b" fractions, no typed ᵀ; typeset every formula and symbol (real subscripts, stacked fractions) and keep plain digits as text, so the number audit can read them. `parts.py` fails the build on math typed as text.
 - **Fonts:** Patrick Hand for handwriting (it lacks →, ≈, ÷, α, θ: draw arrows, set symbols in MathJax), JetBrains Mono for code. Labels 28 to 34 px, nothing under 22 px at camera scale 1; math 36 px and up.
 
 ## Motion
